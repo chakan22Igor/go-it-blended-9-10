@@ -14,3 +14,29 @@
       <p>Текст</p>
   </li>
 */
+import { refs } from "./js/refs";
+import { addToDo, clearTaskList, deleteTask, renderTasks } from "./js/render-tasks";
+
+renderTasks();
+refs.form.addEventListener('submit', (event) => {
+  event.preventDefault();
+  const inputTitles = event.target.elements.taskName.value.trim();
+  const inputText = event.target.elements.taskDescription.value.trim();
+  if (inputTitles === "" || inputText === "") {
+    alert('Fill all fields');
+    return
+  };
+  const todo = {
+    title: inputTitles,
+    text: inputText,
+  }
+  addToDo(todo);
+  refs.form.reset();
+});
+refs.tasklist.addEventListener('click', event => {
+  if (!event.target.classList.contains('task-list-item-btn')) {
+    return
+  }
+  const title = event.target.nextElementSibling.textContent;
+  deleteTask(title)
+});
